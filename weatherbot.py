@@ -20,12 +20,12 @@ def on_ready():
 
 
 @bot.command(pass_context=True)
-def ping(ctx):
+async def ping(ctx):
     await bot.say("i'm alive!")
 
 
 @bot.command(pass_context=True)
-def w(ctx):
+async def w(ctx):
     embed = discord.Embed(title="title", description="description",color=0xDF4D11)
     embed.set_footer(text="footer")
     embed.set_author(name="Author")
