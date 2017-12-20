@@ -35,4 +35,4 @@ async def w(ctx):
 #bot TOKEN
 #---------
 
-bot.run('DISCORD TOKEN')
+bot.run('token')
