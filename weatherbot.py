@@ -21,7 +21,7 @@ def on_ready():
 
 @bot.command(pass_context=True)
 def ping(ctx):
-	await bot.say("im alive!")
+    await bot.say("i'm alive!")
 
 
 @bot.command(pass_context=True)
@@ -30,7 +30,7 @@ def w(ctx):
     embed.set_footer(text="footer")
     embed.set_author(name="Author")
     embed.add_field(name="Weather Coming Soon", value="value", inline=True)
-     await bot.send_message(ctx.message.channel, embed=w)
+    await bot.send_message(ctx.message.channel, embed=w)
 #---------
 #bot TOKEN
 #---------
