@@ -67,6 +67,12 @@ async def w(ctx, *args):
             msg.add_field(name = "Boosted Types", value = "<:Grass:393253049545654272> <:Fire:393253208849514506> <:Ground:393253254928007176>", inline = False)
         elif(wx_code == 741):
             msg.add_field(name = "Boosted Types", value = "<:Dark:393252566340993030> <:Ghost:393252567158882314>", inline = False)
+        elif(wx_code >= 200 and wx_code < 600):
+            msg.add_field(name = "Boosted Types", value = "<:Water:393252566294724619> <:Electric:393252566114500608> <:Bug:393252565799665677>", inline = False)
+        elif(wx_code >= 952 and wx_code < 958):
+            msg.add_field(name = "Boosted Types", value = "<:Flying:393252566378479617> <:Dragon:393252566542057473> <:Psychic:393252566785458178>", inline = False)
+        elif(wx_code >= 600 and wx_code < 700):
+            msg.add_field(name = "Boosted Types", value = "<:Ice:393252567095836672> <:Steel:393252567221796864>", inline = False)
 
 
         await bot.send_message(ctx.message.channel, embed = msg)
