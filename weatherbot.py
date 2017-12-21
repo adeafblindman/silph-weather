@@ -1,6 +1,7 @@
 import discord
 from discord.ext import commands
 import pyowm
+from geopy.geocoders import Nominatim
 
 bot = commands.Bot(command_prefix='!')
 owm = pyowm.OWM('')
@@ -36,11 +37,14 @@ async def ping(ctx):
 async def w(ctx, *args):
 
     ## Join all the strings given.
-    location = ' '.join(args)
+    string = ' '.join(args)
+
+    geolocator = Nominatim()
+    location = geolocator.geocode(string)
 
     try:
         ## Get the weather
-        observation = owm.weather_at_place(location)
+        observation = owm.weather_at_coords(location.latitude, location.longitude)
         w = observation.get_weather()
 
         sky_status = w.get_detailed_status()
