@@ -1,5 +1,11 @@
 # silph-weather
 
+things to install:
+pip install discord.py
+pip install owm.py
+pip install geo
+
+
 commands:
 
 !w = weather now
