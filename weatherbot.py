@@ -60,7 +60,10 @@ async def w(ctx, *args):
         msg.add_field(name = "Code", value =  str(wx_code), inline = False)
 
         if(wx_code == 800):
-            msg.add_field(name = "Boosted Types", value = "<:Grass:393223845567528963> <:Fire:393223873111523338> <:Ground:393223905076051969> ", inline = False)
+            msg.add_field(name = "Boosted Types", value = "<:Grass:393253049545654272> <:Fire:393253208849514506> <:Ground:393253254928007176>", inline = False)
+        elif(wx_code == 741):
+            msg.add_field(name = "Boosted Types", value = "<:Dark:393252566340993030> <:Ghost:393252567158882314>", inline = False)
+
 
         await bot.send_message(ctx.message.channel, embed = msg)
 
