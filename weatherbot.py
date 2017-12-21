@@ -43,7 +43,7 @@ async def w(ctx, *args):
         observation = owm.weather_at_place(location)
         w = observation.get_weather()
 
-        sky_status = w.get_status()
+        sky_status = w.get_detailed_status()
         temp_f     = w.get_temperature(unit = 'fahrenheit')
         wind       = w.get_wind()
         wind_mph   = round(wind["speed"] * 2.23694, 2)
