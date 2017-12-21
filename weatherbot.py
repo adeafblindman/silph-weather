@@ -17,8 +17,8 @@ async def on_ready():
 #utility functions
 #-------------
 def degToCompass(num):
-    val=int((num/22.5)+.5)
-    arr=["N","NNE","NE","ENE","E","ESE", "SE", "SSE","S","SSW","SW","WSW","W","WNW","NW","NNW"]
+    val = int((num/22.5)+.5)
+    arr = ["N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE", "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW"]
     return arr[(val % 16)]
 
 
@@ -59,11 +59,14 @@ async def w(ctx, *args):
         msg.add_field(name = "Humidity", value =  str(humidity) + " %", inline = False)
         msg.add_field(name = "Code", value =  str(wx_code), inline = False)
 
+        if(wx_code == 800):
+            msg.add_field(name = "Boosted Types", value = "<:Grass:393223845567528963> <:Fire:393223873111523338> <:Ground:393223905076051969> ", inline = False)
 
         await bot.send_message(ctx.message.channel, embed = msg)
+
+    ## If the location is not found alert the user.
     except pyowm.exceptions.not_found_error.NotFoundError:
         await bot.say("Location not found!")
-
 
 #---------
 #bot TOKEN
