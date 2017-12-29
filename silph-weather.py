@@ -61,13 +61,29 @@ async def w(ctx, *args):
         msg.add_field(name = "Wind", value =  degToCompass(wind["deg"]) + ' ' + str(wind_mph) + " MPH", inline = False)
         msg.add_field(name = "Cloud Coverage", value =  str(cloud_cov) + " %", inline = False)
         msg.add_field(name = "Humidity", value =  str(humidity) + " %", inline = False)
-        msg.add_field(name = "Code", value =  str(wx_code), inline = False)
+        ## msg.add_field(name = "Code", value =  str(wx_code), inline = False)
 
-        if(wx_code == 800):             #use \:emoji: to find emoji code
-            msg.add_field(name = "Boosted Types", value = "<:Grass:389121615541305344> <:Fire:389113469665804318> <:Ground:389121614048133130>", inline = False)
+        ## Clear conditions
+        if(wx_code == 800):
+            msg.add_field(name = "Boosted Types", value = "<:Grass:393253049545654272> <:Fire:389113469665804318> <:Ground:389121614048133130>", inline = False)
+        ## Partly Cloudy
+        elif(wx_code == 801 or wx_code == 802 or wx_code == 701):
+            msg.add_field(name = "Boosted Types", value = "<:Normal:389121615490842634> <:Rock:389121614098464788>", inline = False)
+        ## Cloudy
+        elif(wx_code == 803 or wx_code == 804):
+            msg.add_field(name = "Boosted Types", value = "<:Fairy:389121572616667145> <:Fighting:389121572620992534> <:Poison:389121615545368577>", inline = False)
+        ## Fog
         elif(wx_code == 741):
-            msg.add_field(name = "Boosted Types", value = "<:Dark:389121572813799424> <:Ghost:389121615318745090>", inline = False)
-
+            msg.add_field(name = "Boosted Types", value = "<:Dark:389121572813799424> <:Ghost::389121615318745090>", inline = False)
+        ## Rain
+        elif(wx_code >= 200 and wx_code < 600):
+            msg.add_field(name = "Boosted Types", value = "<:Water:389121613804601345> <:Electric:389121572612341760> <:Bug:389121572431986688>", inline = False)
+        ## Wind
+        elif(wx_code >= 952 and wx_code < 958):
+            msg.add_field(name = "Boosted Types", value = "<:Flying:389121613905526786> <:Dragon:389121572859936769> <:Psychic:389121615402762261>", inline = False)
+        ## Snow
+        elif(wx_code >= 600 and wx_code < 700):
+            msg.add_field(name = "Boosted Types", value = "<:Ice:389121615453093888> <:Steel:389121615541043200>", inline = False)
 
         await bot.send_message(ctx.message.channel, embed = msg)
 
