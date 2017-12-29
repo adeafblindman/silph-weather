@@ -1,9 +1,9 @@
 # silph-weather
 
 things to install:
-pip install discord.py
-pip install owm.py
-pip install geo
+pip install discord
+pip install pyowm
+pip install geopy
 
 
 commands:
@@ -14,3 +14,7 @@ commands:
 
 
 Pokemon types folder has the icons you can upload to your discord server emojies.
+
+replace the "<Grass:numbers" with the emoji id from your server
+
+just type \:Grass:  in discord to find the id
