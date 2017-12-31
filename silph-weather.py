@@ -65,7 +65,7 @@ async def w(ctx, *args):
 
         ## Clear conditions
         if(wx_code == 800):
-            msg.add_field(name = "Boosted Types", value = "<:Grass:393253049545654272> <:Fire:389113469665804318> <:Ground:389121614048133130>", inline = False)
+            msg.add_field(name = "Boosted Types", value = "<:Grass:389121615541305344> <:Fire:389113469665804318> <:Ground:389121614048133130>", inline = False)
         ## Partly Cloudy
         elif(wx_code == 801 or wx_code == 802 or wx_code == 701):
             msg.add_field(name = "Boosted Types", value = "<:Normal:389121615490842634> <:Rock:389121614098464788>", inline = False)
