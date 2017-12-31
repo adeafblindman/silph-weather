@@ -70,7 +70,7 @@ async def w(ctx, *args):
         elif(wx_code == 801 or wx_code == 802 or wx_code == 701):
             msg.add_field(name = "Boosted Types", value = "<:Normal:389121615490842634> <:Rock:389121614098464788>", inline = False)
         ## Cloudy
-        elif(wx_code == 803 or wx_code == 804):
+        elif(wx_code == 803 or wx_code == 804 or wx_code == 721):
             msg.add_field(name = "Boosted Types", value = "<:Fairy:389121572616667145> <:Fighting:389121572620992534> <:Poison:389121615545368577>", inline = False)
         ## Fog
         elif(wx_code == 741):
