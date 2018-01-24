@@ -1,5 +1,8 @@
 # silph-weather
 
+updated 1/24/2018 to v0.1.0
+
+
 things to install:
 pip install discord
 pip install pyowm
