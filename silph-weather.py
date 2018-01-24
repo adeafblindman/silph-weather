@@ -13,6 +13,9 @@ async def on_ready():
     print(bot.user.name)
     print(bot.user.id)
     print('-----RUNNING-----')
+    await bot.change_presence(game=discord.Game(name='v0.1.0'))
+
+
 
 #-------------
 #utility functions
@@ -27,12 +30,34 @@ def degToCompass(num):
 #bot commands
 #-------------
 
-
+        #ping
 @bot.command(pass_context=True)
 async def ping(ctx):
-    await bot.say("i'm alive!")
+    await bot.say("Created by TxJacob and ADeafBlindMan")
+
+        #help/command list
+@bot.command(pass_context=True)
+async def commandlist(ctx):
+    await bot.say("Created by TxJacob and ADeafBlindMan")
 
 
+        #!unleashholyterror
+@bot.command(pass_context=True)
+async def unleashholyterror(ctx):
+    await bot.say(":fire::raised_hand_with_fingers_splayed::pray::church::mosque::synagogue::fire:")
+
+        #unleashthekracken
+@bot.command(pass_context=True)
+async def unleashthekracken(ctx):
+    await bot.say(":squid:")
+
+         #bark
+@bot.command(pass_context=True)
+async def bark(ctx):
+    await bot.say("meow :cat:")
+
+        
+        #weather
 @bot.command(pass_context=True)
 async def w(ctx, *args):
 
@@ -74,7 +99,7 @@ async def w(ctx, *args):
             msg.add_field(name = "Boosted Types", value = "<:Fairy:389121572616667145> <:Fighting:389121572620992534> <:Poison:389121615545368577>", inline = False)
         ## Fog
         elif(wx_code == 741):
-            msg.add_field(name = "Boosted Types", value = "<:Dark:389121572813799424> <:Ghost::389121615318745090>", inline = False)
+            msg.add_field(name = "Boosted Types", value = "<:Dark:389121572813799424> <:Ghost:389121615318745090>", inline = False)
         ## Rain
         elif(wx_code >= 200 and wx_code < 600):
             msg.add_field(name = "Boosted Types", value = "<:Water:389121613804601345> <:Electric:389121572612341760> <:Bug:389121572431986688>", inline = False)
