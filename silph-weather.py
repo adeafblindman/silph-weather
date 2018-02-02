@@ -13,7 +13,7 @@ async def on_ready():
     print(bot.user.name)
     print(bot.user.id)
     print('-----RUNNING-----')
-    await bot.change_presence(game=discord.Game(name='v0.1.0'))
+    await bot.change_presence(game=discord.Game(name='v0.1.01'))
 
 
 
@@ -29,6 +29,17 @@ def degToCompass(num):
 #-------------
 #bot commands
 #-------------
+
+-------------
+
+        #help - one tab between command and info
+
+bot.remove_command("help")
+
+@bot.command(pass_context=True)
+async def help(ctx):
+    await bot.say(" ``` help	       Shows this message. \n w Location	 Shows current weather for location \n ping	       Shows creators of bot ``` ")
+
 
         #ping
 @bot.command(pass_context=True)
