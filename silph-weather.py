@@ -3,8 +3,22 @@ from discord.ext import commands
 import pyowm
 from geopy.geocoders import Nominatim
 
+# Get stuff for converting between UTC to localtime
+from datetime import datetime
+from pytz import timezone
+import pytz
+from tzwhere import tzwhere
+
+print('Setting up timezone stuff...')
+tzwhere = tzwhere.tzwhere()
+utc = pytz.utc
+
+print('Setting up location stuff...')
+geolocator = Nominatim()
+
+print('Seting up bot and OWM...')
 bot = commands.Bot(command_prefix='!')
-owm = pyowm.OWM('OPENWEATHERMAP API')
+owm = pyowm.OWM('')
 
 
 @bot.event
@@ -25,12 +39,18 @@ def degToCompass(num):
     arr = ["N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE", "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW"]
     return arr[(val % 16)]
 
+def utcToLocal(latitude, longitude, UTC):
+    utc_dt = utc.localize(datetime.utcfromtimestamp(UTC))
+    local_tz = timezone(tzwhere.tzNameAt(latitude, longitude))
+
+    #print(local_tz)
+
+    local_time = utc_dt.astimezone(local_tz)
+    return local_time
 
 #-------------
 #bot commands
 #-------------
-
--------------
 
         #help - one tab between command and info
 
@@ -75,7 +95,6 @@ async def w(ctx, *args):
     ## Join all the strings given.
     string = ' '.join(args)
 
-    geolocator = Nominatim()
     location = geolocator.geocode(string)
 
     try:
@@ -94,7 +113,7 @@ async def w(ctx, *args):
         ## Print the weather.
         msg = discord.Embed(title= "Weather for " + str(location), description = str(sky_status), color=0xDF4D11)
         msg.add_field(name = "Temperature", value = str(temp_f["temp"]) + " F", inline = False)
-        msg.add_field(name = "Wind", value =  degToCompass(wind["deg"]) + ' ' + str(wind_mph) + " MPH", inline = False)
+        msg.add_field(name = "Wind", value =  degToCompass(wind["deg"]) + ' ' + str(wind_mph) + " MPH", inline = False) ## Need to fix this line for cases where there is no wind direction.
         msg.add_field(name = "Cloud Coverage", value =  str(cloud_cov) + " %", inline = False)
         msg.add_field(name = "Humidity", value =  str(humidity) + " %", inline = False)
         ## msg.add_field(name = "Code", value =  str(wx_code), inline = False)
@@ -126,8 +145,43 @@ async def w(ctx, *args):
     ## If the location is not found alert the user.
     except pyowm.exceptions.not_found_error.NotFoundError:
         await bot.say("Location not found!")
+
+@bot.command(pass_context=True)
+async def f(ctx, *args):
+
+    ## Join all the strings given.
+    string = ' '.join(args)
+
+    location = geolocator.geocode(string)
+
+    try:
+        ## Get the weather
+        forecast = owm.three_hours_forecast_at_coords(location.latitude, location.longitude)
+        f = forecast.get_forecast()
+
+        ## Iterate through the forecast hours and print information
+
+        w_lst = f.get_weathers()
+        for n in range(0,27):
+            weather = w_lst[n]
+
+            time = utcToLocal(location.latitude, location.longitude, weather.get_reference_time())
+            status = weather.get_detailed_status()
+            temp = weather.get_temperature(unit = 'fahrenheit')
+            cloud_coverage = weather.get_clouds()
+            wind = weather.get_wind()
+
+            print(time.strftime('%A-%H:%M'), status, temp["temp"], cloud_coverage, wind["speed"])
+
+        ## Get the local timezone
+        ##local_time = utcToLocal(location.latitude, location.longitude, 1518890630)
+        ##print(local_time.strftime('%H:%M'))
+
+    ## If the location is not found alert the user.
+    except pyowm.exceptions.not_found_error.NotFoundError:
+        await bot.say("Location not found!")
 #---------
 #bot TOKEN
 #---------
 
-bot.run('DISCORD TOKEN')
+bot.run('')
