@@ -18,7 +18,7 @@ geolocator = Nominatim()
 
 print('Seting up bot and OWM...')
 bot = commands.Bot(command_prefix='!')
-owm = pyowm.OWM('')
+owm = pyowm.OWM('OWM TOKEN')
 
 
 @bot.event
@@ -27,7 +27,7 @@ async def on_ready():
     print(bot.user.name)
     print(bot.user.id)
     print('-----RUNNING-----')
-    await bot.change_presence(game=discord.Game(name='v0.1.01'))
+    await bot.change_presence(game=discord.Game(name='v0.2.00a'))
 
 
 
@@ -58,7 +58,7 @@ bot.remove_command("help")
 
 @bot.command(pass_context=True)
 async def help(ctx):
-    await bot.say(" ``` help	       Shows this message. \n w Location	 Shows current weather for location \n ping	       Shows creators of bot ``` ")
+    await bot.say(" ``` help	       Shows this message. \n w Location	 Shows current weather for location \n f Location  Shows a forcast for the location \n ping	       Shows creators of bot ``` ")
 
 
         #ping
@@ -154,28 +154,62 @@ async def f(ctx, *args):
 
     location = geolocator.geocode(string)
 
+    w, h = 8, 27;
+    data = [[0 for x in range(w)] for y in range(h)] 
+
     try:
         ## Get the weather
         forecast = owm.three_hours_forecast_at_coords(location.latitude, location.longitude)
         f = forecast.get_forecast()
 
         ## Iterate through the forecast hours and print information
-
         w_lst = f.get_weathers()
         for n in range(0,27):
             weather = w_lst[n]
 
             time = utcToLocal(location.latitude, location.longitude, weather.get_reference_time())
-            status = weather.get_detailed_status()
             temp = weather.get_temperature(unit = 'fahrenheit')
             cloud_coverage = weather.get_clouds()
             wind = weather.get_wind()
+            wx_code = weather.get_weather_code()
 
-            print(time.strftime('%A-%H:%M'), status, temp["temp"], cloud_coverage, wind["speed"])
+            ## Create a 2d list of the parsed weather data
+            data[n][0] = time.strftime('%A')
+            data[n][1] = time.strftime('%H:%M')
 
-        ## Get the local timezone
-        ##local_time = utcToLocal(location.latitude, location.longitude, 1518890630)
-        ##print(local_time.strftime('%H:%M'))
+            ## Clear conditions
+            if(wx_code == 800):
+                data[n][2] = ":sunny:"
+            ## Partly Cloudy
+            elif(wx_code == 801 or wx_code == 802 or wx_code == 701):
+                data[n][2] = ":white_sun_cloud:"
+            ## Cloudy
+            elif(wx_code == 803 or wx_code == 804 or wx_code == 721):
+                data[n][2] = ":cloud:"
+            ## Fog
+            elif(wx_code == 741):
+                data[n][2] = "<:fog~1:414501765270994959>"
+            ## Rain
+            elif(wx_code >= 200 and wx_code < 600):
+                data[n][2] = ":cloud_rain:"
+            ## Wind
+            elif(wx_code >= 952 and wx_code < 958):
+                data[n][2] = "wind"
+            ## Snow
+            elif(wx_code >= 600 and wx_code < 700):
+                data[n][2] = ":snow:"
+
+            data[n][3] = str(temp["temp"])
+
+        msg = discord.Embed(title= "Forecast for " + str(location), color=0xDF4D11)
+        for nn in range(0,26):
+            if(data[nn][0] == data[nn+1][0]):
+                msg.add_field(name = data[nn][0] + " " + data[nn][1], value = data[nn][2] + " " + data[nn][3] + "°F", inline = True)
+            else:
+                msg.add_field(name = data[nn][0] + " " + data[nn][1], value = data[nn][2] + " " + data[nn][3] + "°F", inline = True)
+                await bot.send_message(ctx.message.channel, embed = msg)
+                msg = discord.Embed(title= "Forecast for " + str(location), color=0xDF4D11)
+
 
     ## If the location is not found alert the user.
     except pyowm.exceptions.not_found_error.NotFoundError:
@@ -184,4 +218,4 @@ async def f(ctx, *args):
 #bot TOKEN
 #---------
 
-bot.run('')
+bot.run('DISCORD TOKEN')
