@@ -232,6 +232,7 @@ async def r(ctx, *args):
     image_path, headers = urllib.request.urlretrieve(url)
     os.rename(image_path, image_path + ".gif")
     await bot.send_file(ctx.message.channel, image_path + ".gif")
+    os.remove(image_path + ".gif")
 #---------
 #bot TOKEN
 #---------
