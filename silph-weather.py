@@ -2,6 +2,8 @@ import discord
 from discord.ext import commands
 import pyowm
 from geopy.geocoders import Nominatim
+import urllib.request
+import os
 
 # Get stuff for converting between UTC to localtime
 from datetime import datetime
@@ -18,7 +20,7 @@ geolocator = Nominatim()
 
 print('Seting up bot and OWM...')
 bot = commands.Bot(command_prefix='!')
-owm = pyowm.OWM('OWM TOKEN')
+owm = pyowm.OWM('OWM Token')
 
 
 @bot.event
@@ -214,8 +216,24 @@ async def f(ctx, *args):
     ## If the location is not found alert the user.
     except pyowm.exceptions.not_found_error.NotFoundError:
         await bot.say("Location not found!")
+
+@bot.command(pass_context=True)
+async def r(ctx, *args):
+
+    wunder_api = "Wunderground Token"
+
+    ## Join all the strings given.
+    string = ' '.join(args)
+
+    location = geolocator.geocode(string)
+
+    url = "http://api.wunderground.com/api/" + wunder_api + "/radar/image.gif?centerlat=" + str(location.latitude) + "&centerlon=" + str(location.longitude) + "&radius=100&width=280&height=280&newmaps=1"
+
+    image_path, headers = urllib.request.urlretrieve(url)
+    os.rename(image_path, image_path + ".gif")
+    await bot.send_file(ctx.message.channel, image_path + ".gif")
 #---------
 #bot TOKEN
 #---------
 
-bot.run('DISCORD TOKEN')
+bot.run('Discord Token')
