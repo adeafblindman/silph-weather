@@ -1,7 +1,7 @@
 # silph-weather
 
-updated 2/2/2018 to v0.1.01
-    added help command
+updated 10/15/2018 to v0.2.4
+    added annoucement on startup
 
 
 things to install:
