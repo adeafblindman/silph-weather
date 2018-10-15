@@ -18,20 +18,36 @@ utc = pytz.utc
 print('Setting up location stuff...')
 geolocator = Nominatim()
 
+    #prefix
 print('Seting up bot and OWM...')
-bot = commands.Bot(command_prefix='!')
-owm = pyowm.OWM('OWM Token')
+bot = commands.Bot(command_prefix='% ')
+owm = pyowm.OWM('OWM KEY GOES HERE')
 
 
 @bot.event
 async def on_ready():
-    print('Logged in as')
-    print(bot.user.name)
-    print(bot.user.id)
-    print('-----RUNNING-----')
-    await bot.change_presence(game=discord.Game(name='v0.2.00a'))
-
-
+	print('Logged in as')
+	print(bot.user.name)
+	print(bot.user.id)
+	print('-----RUNNING-----')
+	#server list				 
+	servers=list(bot.servers)
+	print("Connected on" + str(len(bot.servers)) + "servers:")
+	for x in range(len(servers)):
+		print(' '+servers[x-1].name)
+	#bot is playing a game
+	await bot.change_presence(game=discord.Game(name='v0.2.4'))
+	
+	
+	#startup annoucement
+		
+	for server in bot.servers: 
+		# Spin through every server
+		#for owner in server.members:
+			# Channels on the server
+		await bot.send_message(server.owner, "ANNOUCEMENT ON STARTUP GOES HERE - WILL MESSAGE SERVER OWNERS")
+				# So that we don't send to every channel:
+	print('-----Annoucement Sent-----')
 
 #-------------
 #utility functions
@@ -60,17 +76,18 @@ bot.remove_command("help")
 
 @bot.command(pass_context=True)
 async def help(ctx):
-    await bot.say(" ``` help	       Shows this message. \n w Location	 Shows current weather for location \n f Location  Shows a forcast for the location \n ping	       Shows creators of bot ``` ")
+    await bot.say(" ``` help	       Shows this message. \n w Location	 Shows current weather for location \n f Location     Shows a forcast for the location \n r Location	 Shows current radar for location radar \n % invite	   Creates bot invite link \n ping	       Shows creators of bot ``` ")
+
+        #invite
+@bot.command(pass_context=True)
+async def invite(ctx):
+    await bot.say("https://discordapp.com/api/oauth2/authorize?client_id=388931719417430016&permissions=1141369936&scope=bot")
+	
 
 
         #ping
 @bot.command(pass_context=True)
 async def ping(ctx):
-    await bot.say("Created by TxJacob and ADeafBlindMan")
-
-        #help/command list
-@bot.command(pass_context=True)
-async def commandlist(ctx):
     await bot.say("Created by TxJacob and ADeafBlindMan")
 
 
@@ -87,9 +104,14 @@ async def unleashthekracken(ctx):
          #bark
 @bot.command(pass_context=True)
 async def bark(ctx):
-    await bot.say("meow :cat:")
+    await bot.say("<:bulba:423336927177998346>")
 
-        
+		#order66
+@bot.command(pass_context=True)
+async def order66(ctx):
+        await bot.say("https://pbs.twimg.com/media/DK_Tw9wUEAE7V8_.jpg")
+
+
         #weather
 @bot.command(pass_context=True)
 async def w(ctx, *args):
@@ -122,25 +144,25 @@ async def w(ctx, *args):
 
         ## Clear conditions
         if(wx_code == 800):
-            msg.add_field(name = "Boosted Types", value = "<:Grass:389121615541305344> <:Fire:389113469665804318> <:Ground:389121614048133130>", inline = False)
+            msg.add_field(name = "Boosted Types", value = "<:Grass:429035991349723147> <:Fire:429035989202108418> <:Ground:429035989714075648>", inline = False)
         ## Partly Cloudy
         elif(wx_code == 801 or wx_code == 802 or wx_code == 701):
-            msg.add_field(name = "Boosted Types", value = "<:Normal:389121615490842634> <:Rock:389121614098464788>", inline = False)
+            msg.add_field(name = "Boosted Types", value = "<:Normal:429035989898362900> <:Rock:429035989491777538>", inline = False)
         ## Cloudy
         elif(wx_code == 803 or wx_code == 804 or wx_code == 721):
-            msg.add_field(name = "Boosted Types", value = "<:Fairy:389121572616667145> <:Fighting:389121572620992534> <:Poison:389121615545368577>", inline = False)
+            msg.add_field(name = "Boosted Types", value = "<:Fairy:429035990028386306> <:Fighting:429035989256765452> <:Poison:429035991345528832>", inline = False)
         ## Fog
         elif(wx_code == 741):
-            msg.add_field(name = "Boosted Types", value = "<:Dark:389121572813799424> <:Ghost:389121615318745090>", inline = False)
+            msg.add_field(name = "Boosted Types", value = "<:Dark:429035989437120512> <:Ghost:429035991211311115>", inline = False)
         ## Rain
         elif(wx_code >= 200 and wx_code < 600):
-            msg.add_field(name = "Boosted Types", value = "<:Water:389121613804601345> <:Electric:389121572612341760> <:Bug:389121572431986688>", inline = False)
+            msg.add_field(name = "Boosted Types", value = "<:Water:429035989571207170> <:Electric:429035989613150208> <:Bug:429035988875214849>", inline = False)
         ## Wind
         elif(wx_code >= 952 and wx_code < 958):
-            msg.add_field(name = "Boosted Types", value = "<:Flying:389121613905526786> <:Dragon:389121572859936769> <:Psychic:389121615402762261>", inline = False)
+            msg.add_field(name = "Boosted Types", value = "<:Flying:429035989692973056> <:Dragon:429035989336588298> <:Psychic:429035991521558528>", inline = False)
         ## Snow
         elif(wx_code >= 600 and wx_code < 700):
-            msg.add_field(name = "Boosted Types", value = "<:Ice:389121615453093888> <:Steel:389121615541043200>", inline = False)
+            msg.add_field(name = "Boosted Types", value = "<:Ice:429035989487321090> <:Steel:429035991127425025>", inline = False)
 
         await bot.send_message(ctx.message.channel, embed = msg)
 
@@ -157,7 +179,7 @@ async def f(ctx, *args):
     location = geolocator.geocode(string)
 
     w, h = 8, 27;
-    data = [[0 for x in range(w)] for y in range(h)] 
+    data = [[0 for x in range(w)] for y in range(h)]
 
     try:
         ## Get the weather
@@ -217,10 +239,12 @@ async def f(ctx, *args):
     except pyowm.exceptions.not_found_error.NotFoundError:
         await bot.say("Location not found!")
 
+		
+		#radar
 @bot.command(pass_context=True)
 async def r(ctx, *args):
 
-    wunder_api = "Wunderground Token"
+    wunder_api = "API KEY"
 
     ## Join all the strings given.
     string = ' '.join(args)
@@ -233,8 +257,12 @@ async def r(ctx, *args):
     os.rename(image_path, image_path + ".gif")
     await bot.send_file(ctx.message.channel, image_path + ".gif")
     os.remove(image_path + ".gif")
+
+
+	
+	
 #---------
 #bot TOKEN
 #---------
 
-bot.run('Discord Token')
+bot.run('discord bot token') # Weather Bot
