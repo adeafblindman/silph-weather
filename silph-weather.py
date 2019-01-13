@@ -21,7 +21,7 @@ geolocator = Nominatim()
     #prefix
 print('Seting up bot and OWM...')
 bot = commands.Bot(command_prefix='% ')
-owm = pyowm.OWM('OWM KEY GOES HERE')
+owm = pyowm.OWM('OWM CODE')
 
 
 @bot.event
@@ -36,18 +36,10 @@ async def on_ready():
 	for x in range(len(servers)):
 		print(' '+servers[x-1].name)
 	#bot is playing a game
-	await bot.change_presence(game=discord.Game(name='v0.2.4'))
+	await bot.change_presence(game=discord.Game(name='v0.2.5'))
 	
-	
-	#startup annoucement
-		
-	for server in bot.servers: 
-		# Spin through every server
-		#for owner in server.members:
-			# Channels on the server
-		await bot.send_message(server.owner, "ANNOUCEMENT ON STARTUP GOES HERE - WILL MESSAGE SERVER OWNERS")
-				# So that we don't send to every channel:
-	print('-----Annoucement Sent-----')
+	print('-----DONE-----')
+
 
 #-------------
 #utility functions
@@ -244,7 +236,7 @@ async def f(ctx, *args):
 @bot.command(pass_context=True)
 async def r(ctx, *args):
 
-    wunder_api = "API KEY"
+    wunder_api = "API CODE"
 
     ## Join all the strings given.
     string = ' '.join(args)
@@ -257,6 +249,8 @@ async def r(ctx, *args):
     os.rename(image_path, image_path + ".gif")
     await bot.send_file(ctx.message.channel, image_path + ".gif")
     os.remove(image_path + ".gif")
+	
+	
 
 
 	
@@ -265,4 +259,5 @@ async def r(ctx, *args):
 #bot TOKEN
 #---------
 
-bot.run('discord bot token') # Weather Bot
+bot.run('DISCORD TOKEN') # Weather Bot
+
